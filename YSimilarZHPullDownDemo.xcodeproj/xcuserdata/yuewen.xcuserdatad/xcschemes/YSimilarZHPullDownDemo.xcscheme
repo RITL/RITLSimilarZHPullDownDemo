@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DB431E3D1C8E79C1000D5C90"
+               BuildableName = "YSimilarZHPullDownDemo.app"
+               BlueprintName = "YSimilarZHPullDownDemo"
+               ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -12,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DB431E511C8E79C1000D5C90"
+               BuildableName = "YSimilarZHPullDownDemoTests.xctest"
+               BlueprintName = "YSimilarZHPullDownDemoTests"
+               ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DB431E5C1C8E79C1000D5C90"
+               BuildableName = "YSimilarZHPullDownDemoUITests.xctest"
+               BlueprintName = "YSimilarZHPullDownDemoUITests"
+               ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DB431E3D1C8E79C1000D5C90"
+            BuildableName = "YSimilarZHPullDownDemo.app"
+            BlueprintName = "YSimilarZHPullDownDemo"
+            ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DB431E3D1C8E79C1000D5C90"
+            BuildableName = "YSimilarZHPullDownDemo.app"
+            BlueprintName = "YSimilarZHPullDownDemo"
+            ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DB431E3D1C8E79C1000D5C90"
+            BuildableName = "YSimilarZHPullDownDemo.app"
+            BlueprintName = "YSimilarZHPullDownDemo"
+            ReferencedContainer = "container:YSimilarZHPullDownDemo.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

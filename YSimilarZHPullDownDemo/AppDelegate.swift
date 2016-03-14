@@ -15,6 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        //创建windows对象
+        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        //获取storyBoard对象
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        //获取主页控制器
+        let viewController = storyBoard.instantiateViewControllerWithIdentifier("ViewController")
+        
+        //定义导航控制器
+        let navigationController = UINavigationController(rootViewController: viewController)
+        
+        //设置成rootViewController
+        window.rootViewController = navigationController
+        
+        self.window = window
+        
+        self.window?.makeKeyAndVisible()
+        
         // Override point for customization after application launch.
         return true
     }
