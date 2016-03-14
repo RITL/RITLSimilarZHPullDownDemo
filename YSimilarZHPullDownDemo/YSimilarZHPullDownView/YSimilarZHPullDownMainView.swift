@@ -172,6 +172,8 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     {
         contentOffset.y += (paramNumber * self.bounds.size.height)
         self.scrollView.setContentOffset(contentOffset, animated: true)
+        
+        //显示即将出现的similarZHPullDownView对象的title
         self.titleLabel.text = self.pullViews[index + Int(paramNumber)].title
     }
     

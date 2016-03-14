@@ -68,11 +68,11 @@ class SimilarZHPullDownView: UIView,UIScrollViewDelegate{
         scrollView.addSubview(self.createLable(CGRectMake(0,height!,width,self.responseHeight), title:self.footerTitle))
         
         //设置ContentSize的高度，保证不小于视图的高度
-        height = height > self.bounds.size.height ? height : self.bounds.size.height
+        height = (height > self.bounds.size.height ? height : self.bounds.size.height)
         
         scrollView.contentSize = CGSize(width: self.bounds.size.width, height: height!)
         scrollView.delegate = self;
-        
+
         return scrollView
     }()
     
