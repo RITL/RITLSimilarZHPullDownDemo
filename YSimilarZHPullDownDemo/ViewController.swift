@@ -44,9 +44,15 @@ class ViewController: UIViewController {
     func createPullDownViews() -> [SimilarZHPullDownView]
     {
         var views :[SimilarZHPullDownView] = []
+//        
+//        for(var i:Int = 0 ; i < 3; i++)
+//        {
+//            let similarPullDownView = SimilarZHPullDownView(custom:self.createCustomView(),title:"测试\(i)")
+//            views.append(similarPullDownView)
+//        }
         
-        for(var i:Int = 0 ; i < 3; i++)
-        {
+        for i in 0..<3{
+           
             let similarPullDownView = SimilarZHPullDownView(custom:self.createCustomView(),title:"测试\(i)")
             views.append(similarPullDownView)
         }
