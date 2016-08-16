@@ -112,7 +112,7 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
         let height = self.bounds.size.height
         let width = self.bounds.size.width
         
-        for(var i:Int = 0 ; i < self.pullViews.count; i++)
+        for(var i:Int = 0 ; i < self.pullViews.count; i += 1)
         {
             //获取存储的SimilarZHPullDownView对象
             let pullDownView = self.pullViews[i]
@@ -135,6 +135,12 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     // MARK: - SimilarZHPullDownView Delegate
     func similarZHPullDownView(similarZHPullDownView: SimilarZHPullDownView, pullType: PullType)
     {
+        //修复pullViews.count == 1 ,the program is terminated
+        if pullViews.count == 1 {
+            
+            return;
+        }
+
         //获得当前的偏移量
         let contentOffset = self.scrollView.contentOffset
         
@@ -168,7 +174,7 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
      *  滚动操作
      */
     @available(iOS 8.0,*)
-    func pullDone(paramNumber:CGFloat,var contentOffset:CGPoint,index:Int)
+    func pullDone(paramNumber:CGFloat, var contentOffset:CGPoint,index:Int)
     {
         contentOffset.y += (paramNumber * self.bounds.size.height)
         self.scrollView.setContentOffset(contentOffset, animated: true)
