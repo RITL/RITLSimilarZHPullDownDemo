@@ -1,4 +1,4 @@
-# YSimilarZHPullDownDemo
+# RITLSimilarZHPullDownDemo
 类似知乎上下滑动切换视图实现
 
 效果图:
