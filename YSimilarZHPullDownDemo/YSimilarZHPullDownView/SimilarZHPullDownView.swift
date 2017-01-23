@@ -9,38 +9,45 @@
 import UIKit
 
 
-//滑动响应的方式
+/// 滑动响应的方式
+///
+/// - pullTypeUp    上翻页
+/// - pullTypeDown  下翻页
 enum PullType
 {
-    case PullTypeUp//上翻页
-    case PullTypeDown//下翻页
+    case up
+    case down
 }
 
-
-
+/// 下拉的类型
+///
+/// - middle: 默认中间
+/// - header: 第一页
+/// - footer: 最后一页
 enum SimilarZHPullDownType
 {
-    case Default    //默认中间页
-    case Header     //第一页
-    case Footer     //尾页
+    case middle
+    case header
+    case footer
 }
 
 
-protocol SimilarZHPullDownViewDelegate : class
+protocol SimilarZHPullDownViewDelegate : NSObjectProtocol
 {
-    
-    /**
-     *  需要翻页进行的回调
-     */
-    @available(iOS 8.0,*)
-    func similarZHPullDownView(similarZHPullDownView : SimilarZHPullDownView , pullType:PullType)
-    
-    
+
+    /// 需要翻页进行的回调
+    ///
+    /// - Parameters:
+    ///   - similarZHPullDownView: 进行回调的SimilarZHPullDownView
+    ///   - pullType: 翻页类型
+    func similarZHPullDownView(_ similarZHPullDownView : SimilarZHPullDownView , pullType:PullType)
+
 }
 
 
 /// 类知乎的下拉换页
-class SimilarZHPullDownView: UIView,UIScrollViewDelegate{
+class SimilarZHPullDownView: UIView
+{
 
     /// 响应的高度，就是滑动响应的最小幅度
     final let responseHeight = CGFloat(60)
@@ -53,34 +60,35 @@ class SimilarZHPullDownView: UIView,UIScrollViewDelegate{
         let width = self.bounds.size.width
         
         //初始化滚动视图
-        var scrollView:UIScrollView = UIScrollView(frame:CGRectMake(0, 0, width, self.bounds.size.height))
+        var scrollView:UIScrollView = UIScrollView(frame:CGRect(x: 0, y: 0, width: width, height: self.bounds.size.height))
         
-        //添加自定义视图
         scrollView.addSubview(self.customView!)
         
         //自定义视图的的高度
         var height = self.customView?.bounds.size.height
         
         //头页
-        scrollView.addSubview(self.createLable(CGRectMake(0,-1 * self.responseHeight,width,30), title: self.headerTitle))
+        scrollView.addSubview(self.createLable(CGRect(x: 0,y: -1 * self.responseHeight,width: width,height: 30), title: self.headerTitle))
         
         //尾页
-        scrollView.addSubview(self.createLable(CGRectMake(0,height!,width,self.responseHeight), title:self.footerTitle))
+        scrollView.addSubview(self.createLable(CGRect(x: 0,y: height!,width: width,height: self.responseHeight), title:self.footerTitle))
         
         //设置ContentSize的高度，保证不小于视图的高度
-        height = (height > self.bounds.size.height ? height : self.bounds.size.height)
+        height = (height! > self.bounds.size.height ? height : self.bounds.size.height)
         
         scrollView.contentSize = CGSize(width: self.bounds.size.width, height: height!)
         scrollView.delegate = self;
 
+        
         return scrollView
     }()
+    
     
     /// 中间位置的自定义视图
     var customView:UIView?
     
     /// 代理
-    weak var delegate:SimilarZHPullDownViewDelegate?
+    weak var delegate : SimilarZHPullDownViewDelegate?
     
     /// 标签上写的Title
     var headerTitle = "上一篇"
@@ -88,12 +96,9 @@ class SimilarZHPullDownView: UIView,UIScrollViewDelegate{
     var title = "Title"
     
     /// 类型
-    var type:SimilarZHPullDownType = .Default
+    var type : SimilarZHPullDownType = .middle
     
-    
-    
-    
-    
+
     //MARK: - FUNCTION
     override init(frame: CGRect) {
         
@@ -104,85 +109,90 @@ class SimilarZHPullDownView: UIView,UIScrollViewDelegate{
     /**
      *  便利构造方法
      */
-    @available(iOS 8.0,*)
     convenience init(frame: CGRect ,custom:UIView)
     {
         self.init(frame:frame)
-        self.customView = custom
+        
+        customView = custom
     }
     
     /**
      *  便利构造方法
      */
-    @available(iOS 8.0,*)
     convenience init(custom:UIView)
     {
-        self.init(frame:CGRectNull,custom:custom)
+        self.init(frame:CGRect.null,custom:custom)
     }
     
     /**
      *  便利构造方法
      */
-    @available(iOS 8.0,*)
     convenience init(custom:UIView,title:String)
     {
         self.init(custom:custom)
         self.title = title
+        
     }
     
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder:aDecoder)
     }
 
     override func awakeFromNib() {
         
     }
     
-    override func layoutSubviews(){
-        self.addSubview(self.bottomScrollView)
+    override func layoutSubviews()
+    {
+        super.layoutSubviews()
+        addSubview(bottomScrollView)
     }
-    
-    
-    //MARK: -提示标签构造方法
-    
-    /**
-    *  创建标签
-    */
-    @available(iOS 8.0,*)
-    func createLable(frame:CGRect,title:String) -> UILabel
+
+
+    /// 创建标签
+    ///
+    /// - Parameters:
+    ///   - frame:
+    ///   - title: 标签显示的title
+    /// - Returns:
+    func createLable(_ frame:CGRect,title:String) -> UILabel
     {
         let label:UILabel = UILabel(frame: frame)
         label.text = title
-        label.textAlignment = .Center
-        label.font = UIFont.systemFontOfSize(12)
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }
     
-    
-    //MARK: -UIScrollView Delegate
 
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+}
+
+extension SimilarZHPullDownView : UIScrollViewDelegate
+{
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         //获得偏移量
         let contentOffsetY = scrollView.contentOffset.y
         
         //当前响应的高度，因为下拉，所以响应距离为负数
         let beforeHeight = self.responseHeight * (-1)
+        
         if(contentOffsetY < beforeHeight)
         {
             print("我是DownView,上一页!")
             //表示上一页
-            self.delegate?.similarZHPullDownView(self, pullType: .PullTypeUp)
+            self.delegate?.similarZHPullDownView(self, pullType: .up)
         }
             
-        //偏移量是视图左上角，所以垂直坐标需要-滚动视图的高度
+            //偏移量是视图左上角，所以垂直坐标需要-滚动视图的高度
         else if(contentOffsetY > (scrollView.contentSize.height - scrollView.bounds.size.height + self.responseHeight))
         {
             print("我是DownView,下一页!")
             //表示下一页
-            self.delegate?.similarZHPullDownView(self, pullType: .PullTypeDown)
+            self.delegate?.similarZHPullDownView(self, pullType: .down)
         }
-        
     }
 }

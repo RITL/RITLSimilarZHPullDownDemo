@@ -10,22 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
-        self.navigationItem.title = "Yue"
+        navigationItem.title = "Yue"
 
-        
         //创建DemoMainView对象
-        let demoMainView = YSimilarZHPullDownMainView(frame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height))
+        let demoMainView = YSimilarZHPullDownMainView(frame:CGRect(x: 0,y: 0,width: view.bounds.width,height: view.bounds.height))
+        
         //赋值
         /*** 设置表头与表位文字需要设置数据源之前 ***/
         demoMainView.headerTitle = "啦啦啦,我已经是第一篇了"
         demoMainView.footerTitle = "哈哈哈,我是最后一篇啦"
-        demoMainView.pullViews = self.createPullDownViews()
+        demoMainView.pullViews = createPullDownViews()
 
         //添加视图
-        self.view.addSubview(demoMainView)
+        view.addSubview(demoMainView)
 
     }
 
@@ -44,16 +45,11 @@ class ViewController: UIViewController {
     func createPullDownViews() -> [SimilarZHPullDownView]
     {
         var views :[SimilarZHPullDownView] = []
-//        
-//        for(var i:Int = 0 ; i < 3; i++)
-//        {
-//            let similarPullDownView = SimilarZHPullDownView(custom:self.createCustomView(),title:"测试\(i)")
-//            views.append(similarPullDownView)
-//        }
-        
-        for i in 0..<3{
+
+        for i in 0 ..< 3{
            
             let similarPullDownView = SimilarZHPullDownView(custom:self.createCustomView(),title:"测试\(i)")
+            
             views.append(similarPullDownView)
         }
         
@@ -71,9 +67,9 @@ class ViewController: UIViewController {
     //        let count:UInt32 = arc4random_uniform(3) + UInt32(1)
         
         let count = 1
-        view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * CGFloat(count))
+        view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height * CGFloat(count))
         view.image = UIImage(named: "testImage.jpg")
-        view.contentMode = .ScaleToFill
+        view.contentMode = .scaleToFill
         
         return view
     }

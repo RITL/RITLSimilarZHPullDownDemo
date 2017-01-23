@@ -18,19 +18,25 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     
     
     /// 存放预览视图的数组,默认为空数组,为存储属性，设置KVO
-    var pullViews:[SimilarZHPullDownView] = []
+    var pullViews : [SimilarZHPullDownView] = []
     {
         willSet
         {
-            self.pullViews = newValue
+            newValue.first?.headerTitle = self.headerTitle
+            newValue.first?.type = .header
             
-            //开始做处理
-            self.pullViews.first?.headerTitle = self.headerTitle
-            self.pullViews.first?.type = .Header
-
-
-            self.pullViews.last?.footerTitle = self.footerTitle
-            self.pullViews.last?.type = .Footer
+            newValue.last?.footerTitle = self.footerTitle
+            newValue.last?.type = .footer
+            
+//            self.pullViews = newValue
+//            
+//            //开始做处理
+//            self.pullViews.first?.headerTitle = self.headerTitle
+//            self.pullViews.first?.type = .header
+//
+//
+//            self.pullViews.last?.footerTitle = self.footerTitle
+//            self.pullViews.last?.type = .footer
         }
     }
     
@@ -38,11 +44,11 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     /// 存放滚动页的主滚动页
     lazy var scrollView:UIScrollView = {
         
-        var scrollView:UIScrollView = UIScrollView(frame: CGRectMake(0,self.titleLabel.bounds.size.height,self.bounds.size.width,self.bounds.size.height - 50 - 64))
+        let scrollView : UIScrollView = UIScrollView(frame: CGRect(x: 0,y: self.titleLabel.bounds.size.height,width: self.bounds.size.width,height: self.bounds.size.height - 50 - 64))
         
-        scrollView.pagingEnabled = true//分页显示
+        scrollView.isPagingEnabled = true//分页显示
         scrollView.showsVerticalScrollIndicator = false //不显示垂直滚条
-        scrollView.scrollEnabled = false //不能滚动
+        scrollView.isScrollEnabled = false //不能滚动
         
         return scrollView
         
@@ -52,8 +58,8 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     /// 显示标题的标题
     lazy var titleLabel:UILabel = {
         
-        var label:UILabel = UILabel(frame: CGRectMake(0,0,self.bounds.size.width,50))
-        label.textAlignment = .Center
+        let label:UILabel = UILabel(frame: CGRect(x: 0,y: 0,width: self.bounds.size.width,height: 50))
+        label.textAlignment = .center
         return label
         
     }()
@@ -112,15 +118,13 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
         let height = self.bounds.size.height
         let width = self.bounds.size.width
         
-//        for(var i:Int = 0 ; i < self.pullViews.count; i += 1)
-//        {
-//            
-        for i in 0..<pullViews.count
+
+        for i in 0 ..< pullViews.count
         {
             //获取存储的SimilarZHPullDownView对象
             let pullDownView = self.pullViews[i]
             
-            pullDownView.frame = CGRectMake(0, CGFloat(i) * height, width, height - 64 - 50)
+            pullDownView.frame = CGRect(x: 0, y: CGFloat(i) * height, width: width, height: height - 64 - 50)
             
             //设置代理
             pullDownView.delegate = self
@@ -136,7 +140,7 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     
     
     // MARK: - SimilarZHPullDownView Delegate
-    func similarZHPullDownView(similarZHPullDownView: SimilarZHPullDownView, pullType: PullType)
+    func similarZHPullDownView(_ similarZHPullDownView: SimilarZHPullDownView, pullType: PullType)
     {
         //修复pullViews.count == 1 ,the program is terminated
         if pullViews.count == 1 {
@@ -145,25 +149,27 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
         }
 
         //获得当前的偏移量
-        let contentOffset = self.scrollView.contentOffset
+        let contentOffset = scrollView.contentOffset
         
         //获得索引数
-        let index = self.pullViews.indexOf(similarZHPullDownView)
+        let index = pullViews.index(of: similarZHPullDownView)
         
         var paramNumber = CGFloat(1)
         
         switch pullType
         {
-            case .PullTypeUp: //上翻页
-                guard similarZHPullDownView.type == .Header else{
+            case .up: //上翻页
+                
+                guard similarZHPullDownView.type == .header else{
                     
                     paramNumber = CGFloat(-1)
                     self.pullDone(paramNumber, contentOffset: contentOffset, index: index!)
                     break
             }
             
-            case .PullTypeDown://下翻页
-                guard similarZHPullDownView.type == .Footer else{
+            case .down://下翻页
+                
+                guard similarZHPullDownView.type == .footer else{
                     paramNumber = CGFloat(1)
                     self.pullDone(paramNumber, contentOffset: contentOffset, index: index!)
                     break
@@ -177,7 +183,7 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
      *  滚动操作
      */
     @available(iOS 8.0,*)
-    func pullDone(paramNumber:CGFloat, contentOffset:CGPoint, index:Int)
+    func pullDone(_ paramNumber:CGFloat, contentOffset:CGPoint, index:Int)
     {
         var contentOffset = contentOffset
         
