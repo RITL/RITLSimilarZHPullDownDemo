@@ -15,8 +15,6 @@
 		DB431E471C8E79C1000D5C90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB431E451C8E79C1000D5C90 /* Main.storyboard */; };
 		DB431E491C8E79C1000D5C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB431E481C8E79C1000D5C90 /* Assets.xcassets */; };
 		DB431E4C1C8E79C1000D5C90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB431E4A1C8E79C1000D5C90 /* LaunchScreen.storyboard */; };
-		DB431E571C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB431E561C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.swift */; };
-		DB431E621C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB431E611C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.swift */; };
 		DB431E711C8E79F9000D5C90 /* SimilarZHPullDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB431E701C8E79F9000D5C90 /* SimilarZHPullDownView.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,11 +47,7 @@
 		DB431E4B1C8E79C1000D5C90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB431E4D1C8E79C1000D5C90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB431E521C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YSimilarZHPullDownDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB431E561C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YSimilarZHPullDownDemoTests.swift; sourceTree = "<group>"; };
-		DB431E581C8E79C1000D5C90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB431E5D1C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YSimilarZHPullDownDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB431E611C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YSimilarZHPullDownDemoUITests.swift; sourceTree = "<group>"; };
-		DB431E631C8E79C1000D5C90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB431E701C8E79F9000D5C90 /* SimilarZHPullDownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarZHPullDownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,8 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				DB431E401C8E79C1000D5C90 /* YSimilarZHPullDownDemo */,
-				DB431E551C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests */,
-				DB431E601C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests */,
 				DB431E3F1C8E79C1000D5C90 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,24 +116,6 @@
 				DB431E4D1C8E79C1000D5C90 /* Info.plist */,
 			);
 			path = YSimilarZHPullDownDemo;
-			sourceTree = "<group>";
-		};
-		DB431E551C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				DB431E561C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.swift */,
-				DB431E581C8E79C1000D5C90 /* Info.plist */,
-			);
-			path = YSimilarZHPullDownDemoTests;
-			sourceTree = "<group>";
-		};
-		DB431E601C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				DB431E611C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.swift */,
-				DB431E631C8E79C1000D5C90 /* Info.plist */,
-			);
-			path = YSimilarZHPullDownDemoUITests;
 			sourceTree = "<group>";
 		};
 		DB431E6F1C8E79E5000D5C90 /* YSimilarZHPullDownView */ = {
@@ -302,7 +276,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB431E571C8E79C1000D5C90 /* YSimilarZHPullDownDemoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +283,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB431E621C8E79C1000D5C90 /* YSimilarZHPullDownDemoUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
