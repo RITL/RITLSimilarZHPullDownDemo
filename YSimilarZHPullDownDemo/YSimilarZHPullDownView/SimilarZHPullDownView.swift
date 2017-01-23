@@ -57,30 +57,41 @@ class SimilarZHPullDownView: UIView
     lazy var bottomScrollView : UIScrollView  =
     {
         //当前视图的宽度
-        let width = self.bounds.size.width
+        let width = self.bounds.width
         
         //初始化滚动视图
-        var scrollView:UIScrollView = UIScrollView(frame:CGRect(x: 0, y: 0, width: width, height: self.bounds.size.height))
-        
-        scrollView.addSubview(self.customView!)
-        
-        //自定义视图的的高度
-        var height = self.customView?.bounds.size.height
-        
-        //头页
-        scrollView.addSubview(self.createLable(CGRect(x: 0,y: -1 * self.responseHeight,width: width,height: 30), title: self.headerTitle))
-        
-        //尾页
-        scrollView.addSubview(self.createLable(CGRect(x: 0,y: height!,width: width,height: self.responseHeight), title:self.footerTitle))
-        
-        //设置ContentSize的高度，保证不小于视图的高度
-        height = (height! > self.bounds.size.height ? height : self.bounds.size.height)
-        
-        scrollView.contentSize = CGSize(width: self.bounds.size.width, height: height!)
+        var scrollView:UIScrollView = UIScrollView(frame:CGRect(x: 0, y: 0, width: width, height: self.bounds.height - 64 - 30))
+
+
         scrollView.delegate = self;
 
-        
         return scrollView
+    }()
+    
+    
+    
+    /// 显示头部文字的label
+    lazy var headerLabel : UILabel = {
+       
+        let label = UILabel(frame: CGRect(x: 0,y: -1 * self.responseHeight,width: self.bounds.width,height: 30))
+        
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        
+        return label
+    }()
+    
+    
+    
+    /// 显示底部文字的label
+    lazy var bottomLabel : UILabel = {
+        
+        let label = UILabel(frame: CGRect(x: 0,y: self.bounds.height,width: self.bounds.width,height: self.responseHeight))
+        
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        
+        return label
     }()
     
     
@@ -114,6 +125,11 @@ class SimilarZHPullDownView: UIView
         self.init(frame:frame)
         
         customView = custom
+        
+        addSubview(bottomScrollView)
+        bottomScrollView.addSubview(headerLabel)
+        bottomScrollView.addSubview(bottomLabel)
+        bottomScrollView.addSubview(customView!)
     }
     
     /**
@@ -147,7 +163,21 @@ class SimilarZHPullDownView: UIView
     override func layoutSubviews()
     {
         super.layoutSubviews()
-        addSubview(bottomScrollView)
+
+        let height = customView?.bounds.height
+        
+        let contentHeight = (height! > bounds.height ? height! : bounds.height + 10)
+        
+
+        bottomScrollView.contentSize = CGSize(width: bounds.width, height: contentHeight)
+        
+        //设置显示
+        headerLabel.text = headerTitle
+        bottomLabel.text = footerTitle
+        
+
+        //设置bottom的位置
+        bottomLabel.frame.origin.y = bottomScrollView.contentSize.height
     }
 
 
@@ -176,6 +206,13 @@ extension SimilarZHPullDownView : UIScrollViewDelegate
         
         //获得偏移量
         let contentOffsetY = scrollView.contentOffset.y
+        
+        // 如果是中间的滑动，不作处理
+        guard contentOffsetY < -1 * responseHeight || contentOffsetY > scrollView.contentSize.height + responseHeight - scrollView.bounds.size.height else {
+            
+            return
+        }
+        
         
         //当前响应的高度，因为下拉，所以响应距离为负数
         let beforeHeight = self.responseHeight * (-1)

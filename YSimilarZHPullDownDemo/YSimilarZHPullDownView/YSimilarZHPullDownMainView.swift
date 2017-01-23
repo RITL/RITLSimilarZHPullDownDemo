@@ -11,6 +11,9 @@ import UIKit
 class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
 
     
+    /// 是否添加子视图
+    var shouldLayoutAddSubViews = true
+    
     /***  第一篇上划以及最后一篇下滑显示的默认字样，可修改 ***/
     var headerTitle:String = "已是第一篇"
     var footerTitle:String = "最后一篇"
@@ -18,33 +21,30 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     
     
     /// 存放预览视图的数组,默认为空数组,为存储属性，设置KVO
-    var pullViews : [SimilarZHPullDownView] = []
-    {
-        willSet
-        {
-            newValue.first?.headerTitle = self.headerTitle
-            newValue.first?.type = .header
+    var pullViews : [SimilarZHPullDownView]? {
+        
+        willSet{
+           
+            //进行newValue的转换
+            newValue!.first?.headerTitle = headerTitle
+            newValue!.first?.type = .header
             
-            newValue.last?.footerTitle = self.footerTitle
-            newValue.last?.type = .footer
+            newValue!.last?.footerTitle = footerTitle
+            newValue!.last?.type = .footer
             
-//            self.pullViews = newValue
-//            
-//            //开始做处理
-//            self.pullViews.first?.headerTitle = self.headerTitle
-//            self.pullViews.first?.type = .header
-//
-//
-//            self.pullViews.last?.footerTitle = self.footerTitle
-//            self.pullViews.last?.type = .footer
+            self.ritl_pullViews = newValue!
         }
     }
+    
+    
+    /// 真正用于显示的视图数组
+    fileprivate var ritl_pullViews : [SimilarZHPullDownView] = [SimilarZHPullDownView]()
     
     
     /// 存放滚动页的主滚动页
     lazy var scrollView:UIScrollView = {
         
-        let scrollView : UIScrollView = UIScrollView(frame: CGRect(x: 0,y: self.titleLabel.bounds.size.height,width: self.bounds.size.width,height: self.bounds.size.height - 50 - 64))
+        let scrollView : UIScrollView = UIScrollView(frame: CGRect(x: 0,y: self.titleLabel.bounds.height,width: self.bounds.width,height: self.bounds.height - 50 - 64))
         
         scrollView.isPagingEnabled = true//分页显示
         scrollView.showsVerticalScrollIndicator = false //不显示垂直滚条
@@ -58,8 +58,10 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     /// 显示标题的标题
     lazy var titleLabel:UILabel = {
         
-        let label:UILabel = UILabel(frame: CGRect(x: 0,y: 0,width: self.bounds.size.width,height: 50))
+        let label:UILabel = UILabel(frame: CGRect(x: 0,y: 0,width: self.bounds.width,height: 50))
+        
         label.textAlignment = .center
+        
         return label
         
     }()
@@ -72,35 +74,29 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     {
         super.init(frame: frame)
         
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.scrollView)
+        addSubview(titleLabel)
+        addSubview(scrollView)
     }
 
-    /**
-     *  便利构造方法
-     */
-    @available(iOS 8.0,*)
-    required convenience init(frame: CGRect,pullViews:[SimilarZHPullDownView])
+
+    required init?(coder aDecoder: NSCoder)
     {
-        self.init(frame:frame)
-        self.pullViews = pullViews
+        super.init(coder: aDecoder)
     }
     
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func awakeFromNib() {
-        
-    }
+
     
     override func layoutSubviews() {
         
+        if shouldLayoutAddSubViews {
+            
+            addChildView()
+            shouldLayoutAddSubViews = false
+        }
+
         //设置自身的contentSize
-        self.scrollView.contentSize = CGSize(width: self.bounds.size.width, height: CGFloat(self.pullViews.count) * self.bounds.size.height)
-        
-        self.addChildView()
+        scrollView.contentSize = CGSize(width: bounds.width, height: CGFloat(ritl_pullViews.count) * bounds.height)
+
     }
     
     
@@ -111,18 +107,17 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     /**
     *  添加子视图
     */
-    @available(iOS 8.0,*)
     func addChildView()
     {
         //获取当前视图的高度和宽度
-        let height = self.bounds.size.height
-        let width = self.bounds.size.width
+        let height = self.bounds.height
+        let width = self.bounds.width
         
 
-        for i in 0 ..< pullViews.count
+        for i in 0 ..< ritl_pullViews.count
         {
             //获取存储的SimilarZHPullDownView对象
-            let pullDownView = self.pullViews[i]
+            let pullDownView = self.ritl_pullViews[i]
             
             pullDownView.frame = CGRect(x: 0, y: CGFloat(i) * height, width: width, height: height - 64 - 50)
             
@@ -130,10 +125,10 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
             pullDownView.delegate = self
             
             //添加视图
-            self.scrollView.addSubview(pullDownView)
+            scrollView.addSubview(pullDownView)
         }
         
-        self.titleLabel.text = self.pullViews.first?.title
+        titleLabel.text = ritl_pullViews.first?.title
     }
 
 
@@ -143,37 +138,32 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     func similarZHPullDownView(_ similarZHPullDownView: SimilarZHPullDownView, pullType: PullType)
     {
         //修复pullViews.count == 1 ,the program is terminated
-        if pullViews.count == 1 {
+        guard ritl_pullViews.count > 1 else {
             
-            return;
+            return
         }
 
         //获得当前的偏移量
         let contentOffset = scrollView.contentOffset
         
         //获得索引数
-        let index = pullViews.index(of: similarZHPullDownView)
-        
-        var paramNumber = CGFloat(1)
+        let index = ritl_pullViews.index(of: similarZHPullDownView)
         
         switch pullType
         {
             case .up: //上翻页
                 
-                guard similarZHPullDownView.type == .header else{
+                if similarZHPullDownView.type != .header {
                     
-                    paramNumber = CGFloat(-1)
-                    self.pullDone(paramNumber, contentOffset: contentOffset, index: index!)
-                    break
-            }
+                    pullDone(CGFloat(-1), contentOffset: contentOffset, index: index!)
+                }
             
             case .down://下翻页
                 
-                guard similarZHPullDownView.type == .footer else{
-                    paramNumber = CGFloat(1)
-                    self.pullDone(paramNumber, contentOffset: contentOffset, index: index!)
-                    break
-            }
+                if similarZHPullDownView.type != .footer {
+                    
+                    pullDone(CGFloat(1), contentOffset: contentOffset, index: index!)
+                }
         }
     }
     
@@ -182,16 +172,16 @@ class YSimilarZHPullDownMainView: UIScrollView ,SimilarZHPullDownViewDelegate{
     /**
      *  滚动操作
      */
-    @available(iOS 8.0,*)
     func pullDone(_ paramNumber:CGFloat, contentOffset:CGPoint, index:Int)
     {
         var contentOffset = contentOffset
         
-        contentOffset.y += (paramNumber * self.bounds.size.height)
-        self.scrollView.setContentOffset(contentOffset, animated: true)
+        contentOffset.y += (paramNumber * bounds.size.height)
+        
+        scrollView.setContentOffset(contentOffset, animated: true)
         
         //显示即将出现的similarZHPullDownView对象的title
-        self.titleLabel.text = self.pullViews[index + Int(paramNumber)].title
+        titleLabel.text = ritl_pullViews[index + Int(paramNumber)].title
     }
     
 }
